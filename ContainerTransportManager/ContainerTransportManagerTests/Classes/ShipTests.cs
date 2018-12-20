@@ -34,7 +34,20 @@ namespace ContainerTransportManager.Classes.Tests
         [TestMethod()]
         public void ValidateLoadingWeightTest()
         {
+            List<Container> testContainers = new List<Container>();
 
+            Container testContainer1 = new Container(0, 20, Container.ContainerType.Regular, 0);
+            Container testContainer2 = new Container(0, 20, Container.ContainerType.Regular, 0);
+            Container testContainer3 = new Container(0, 20, Container.ContainerType.Regular, 0);
+            testContainers.Add(testContainer1);
+            testContainers.Add(testContainer2);
+            testContainers.Add(testContainer3);
+
+            Ship testShip = new Ship();
+
+            bool expected = true;
+            bool actual = testShip.ValidateLoadingWeight(testContainers);
+            Assert.AreEqual(expected, actual);
         }
     }
 }
