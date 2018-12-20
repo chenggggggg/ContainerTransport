@@ -16,12 +16,12 @@ namespace ContainerTransportManager.Classes
         {
 
         }
-
+        /*
         public List<ContainerPile> SortContainersInPiles()
         {
 
         }
-
+        */
         public List<ContainerPile> CreateContainerPiles(int maxcolumns, int maxrows)
         {
             List<ContainerPile> containerPiles = new List<ContainerPile>();
