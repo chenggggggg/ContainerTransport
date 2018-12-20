@@ -15,7 +15,7 @@ namespace ContainerTransportManager.Classes
             Cooled,
         }
         public int ContainerId { get; set; }
-        public double Weight { get; set; } = 4000;
+        public int Weight { get; set; } = 4000;
         public ContainerType Type { get; set; } = ContainerType.Regular;
         public int PilePosition { get; set; }
 
