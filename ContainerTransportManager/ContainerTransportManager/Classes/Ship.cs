@@ -6,7 +6,16 @@ using System.Threading.Tasks;
 
 namespace ContainerTransportManager.Classes
 {
-    class Ship
+    public class Ship
     {
+        public int MaxColumns { get; set; }
+        public int MaxRows { get; set; }
+        public List<ContainerPile> ContainerPiles { get; set; }
+
+        public Ship()
+        {
+
+        }
+
     }
 }
