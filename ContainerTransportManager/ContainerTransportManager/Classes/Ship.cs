@@ -22,6 +22,30 @@ namespace ContainerTransportManager.Classes
 
         }
         */
+        /// <summary>
+        /// Runs a check if the total weight of loading containers are above 50% of maximum loading weight of the ship. Returns a bool.
+        /// </summary>
+        /// <param name="containers"></param>
+        /// <returns></returns>
+        public bool ValidateLoadingWeight(List<Container> containers)
+        {
+            int maximumWeight = MaxColumns * MaxRows * 150; //30 ton max. container weight, + 120 ton topload weight.
+
+            int totalWeightOfLoad = 0;
+            foreach (Container c in containers)
+            {
+                totalWeightOfLoad = totalWeightOfLoad + c.Weight;
+            }
+
+            if (totalWeightOfLoad > maximumWeight / 2)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         public List<ContainerPile> CreateContainerPiles(int maxcolumns, int maxrows)
         {
             List<ContainerPile> containerPiles = new List<ContainerPile>();
