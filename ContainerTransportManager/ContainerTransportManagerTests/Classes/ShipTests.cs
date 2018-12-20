@@ -30,5 +30,11 @@ namespace ContainerTransportManager.Classes.Tests
 
             Assert.AreEqual(expected, actual);
         }
+
+        [TestMethod()]
+        public void ValidateLoadingWeightTest()
+        {
+
+        }
     }
 }
