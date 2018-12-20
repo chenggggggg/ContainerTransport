@@ -16,6 +16,11 @@ namespace ContainerTransportManager.Classes
         {
 
         }
+        public Ship(int maxcolumns, int maxrows)
+        {
+            MaxColumns = maxcolumns;
+            MaxRows = maxrows;
+        }
         /*
         public List<ContainerPile> SortContainersInPiles()
         {
