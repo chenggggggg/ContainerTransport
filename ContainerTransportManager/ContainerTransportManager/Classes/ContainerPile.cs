@@ -27,5 +27,15 @@ namespace ContainerTransportManager.Classes
             Row = row;
             Side = side;
         }
+
+        public int GetTopLoadWeight()
+        {
+            int totalWeight = 0;
+            for (int i = 1; i < Containers.Count; i++)
+            {
+                totalWeight = totalWeight + this.Containers[i].Weight;
+            }
+            return totalWeight;
+        }
     }
 }

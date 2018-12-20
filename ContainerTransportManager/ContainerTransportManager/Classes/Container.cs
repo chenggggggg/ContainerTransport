@@ -5,15 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ContainerTransportManager.Classes
-{
+{    public enum ContainerType
+    {
+        Regular,
+        Valuable,
+        Cooled,
+    }
     public class Container
     {
-        public enum ContainerType
-        {
-            Regular,
-            Valuable,
-            Cooled,
-        }
+        
         public int ContainerId { get; set; }
         public int Weight { get; set; } = 4000;
         public ContainerType Type { get; set; } = ContainerType.Regular;
