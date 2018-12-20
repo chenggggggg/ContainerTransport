@@ -42,7 +42,7 @@ namespace ContainerTransportManager.Classes
                 totalWeightOfLoad = totalWeightOfLoad + c.Weight;
             }
 
-            if (totalWeightOfLoad > maximumWeight / 2)
+            if (totalWeightOfLoad >= maximumWeight / 2)
             {
                 return true;
             }

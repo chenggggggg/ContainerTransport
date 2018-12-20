@@ -36,14 +36,22 @@ namespace ContainerTransportManager.Classes.Tests
         {
             List<Container> testContainers = new List<Container>();
 
+            Ship testShip = new Ship(2, 2);
+            for (int i =0; i < 10; i++)
+            {
+                Container testContainer = new Container(i, 30, Container.ContainerType.Regular, 0);
+                testContainers.Add(testContainer);
+            }
+            /*
+            //First test for 3 containers.
             Container testContainer1 = new Container(0, 20, Container.ContainerType.Regular, 0);
             Container testContainer2 = new Container(0, 20, Container.ContainerType.Regular, 0);
             Container testContainer3 = new Container(0, 20, Container.ContainerType.Regular, 0);
             testContainers.Add(testContainer1);
             testContainers.Add(testContainer2);
             testContainers.Add(testContainer3);
-
-            Ship testShip = new Ship();
+            Ship testShip = new Ship(5, 5);
+            */
 
             bool expected = true;
             bool actual = testShip.ValidateLoadingWeight(testContainers);
