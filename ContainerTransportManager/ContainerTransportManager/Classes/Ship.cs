@@ -40,9 +40,9 @@ namespace ContainerTransportManager.Classes
 
         public List<ContainerPile> SortValuableContainersInPiles(List<ContainerPile> containerpiles, List<Container> containers)
         {
-            List<Container> regularContainers = containers;
+            List<Container> valuableContainers = containers;
 
-            foreach (Container c in regularContainers)
+            foreach (Container c in valuableContainers)
             {
                 int weightOfLeftSide = GetWeightOfShipSide(ShipSide.Left, containerpiles);
                 int weightOfRightSide = GetWeightOfShipSide(ShipSide.Right, containerpiles);
