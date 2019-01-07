@@ -31,9 +31,9 @@ namespace ContainerTransportManager.Classes
             {
                 containerPilesOfShip = SortCooledContainersInPiles(containerPilesOfShip, GetContainersOfType(containers, ContainerType.Cooled));
 
-                containerPilesOfShip = SortRegularContainersInPiles(containerPilesOfShip, GetContainersOfType(containers, ContainerType.Cooled));
+                containerPilesOfShip = SortRegularContainersInPiles(containerPilesOfShip, GetContainersOfType(containers, ContainerType.Regular));
 
-                containerPilesOfShip = SortValuableContainersInPiles(containerPilesOfShip, GetContainersOfType(containers, ContainerType.Cooled));
+                containerPilesOfShip = SortValuableContainersInPiles(containerPilesOfShip, GetContainersOfType(containers, ContainerType.Valuable));
             }
             return containerPilesOfShip;
         }
@@ -109,7 +109,6 @@ namespace ContainerTransportManager.Classes
             }
             return containerpiles;
         }
-
 
         public List<ContainerPile> SortCooledContainersInPiles(List<ContainerPile> containerpiles, List<Container> containers)
         {
