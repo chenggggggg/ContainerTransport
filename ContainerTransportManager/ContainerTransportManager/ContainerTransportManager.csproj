@@ -48,6 +48,12 @@
   <ItemGroup>
     <Compile Include="Classes\Container.cs" />
     <Compile Include="Classes\ContainerPile.cs" />
+    <Compile Include="ContainerManagerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ContainerManagerForm.Designer.cs">
+      <DependentUpon>ContainerManagerForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="CreateShipForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -57,6 +63,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Classes\Ship.cs" />
+    <EmbeddedResource Include="ContainerManagerForm.resx">
+      <DependentUpon>ContainerManagerForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CreateShipForm.resx">
       <DependentUpon>CreateShipForm.cs</DependentUpon>
     </EmbeddedResource>

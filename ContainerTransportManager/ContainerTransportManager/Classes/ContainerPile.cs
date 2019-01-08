@@ -20,6 +20,7 @@ namespace ContainerTransportManager.Classes
             Column = column;
             Row = row;
             Side = side;
+            Containers = new List<Container>();
         }
 
         public int GetTopLoadWeight()

@@ -56,6 +56,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="Classes\ContainerPileTests.cs" />
     <Compile Include="Classes\ShipTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

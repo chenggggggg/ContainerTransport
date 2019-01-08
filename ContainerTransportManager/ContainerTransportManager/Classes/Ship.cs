@@ -37,20 +37,24 @@ namespace ContainerTransportManager.Classes
             if (ValidateLoadingWeight(containers))
             {
                 //There are 3 types of containers, and must all be sorted separately.
-                for (int i = 0; i < 2; i++)
-                {
-                    ContainerType type = (ContainerType)i;
-                    containerPilesOfShip = SortContainersOfTypeInPiles(containerPilesOfShip, containers, type);
-                }
+                containerPilesOfShip = SortContainersOfTypeInPiles(containerPilesOfShip, containers, ContainerType.Cooled);
+                containerPilesOfShip = SortContainersOfTypeInPiles(containerPilesOfShip, containers, ContainerType.Regular);
+                containerPilesOfShip = SortContainersOfTypeInPiles(containerPilesOfShip, containers, ContainerType.Valuable);
             }
             return containerPilesOfShip;
         }
-
+        /// <summary>
+        /// Sorts the containers of specified type into container piles. Returns the containerpiles with sorted containers.
+        /// </summary>
+        /// <param name="containerpiles"></param>
+        /// <param name="containers"></param>
+        /// <param name="containertype"></param>
+        /// <returns></returns>
         public List<ContainerPile> SortContainersOfTypeInPiles(List<ContainerPile> containerpiles, List<Container> containers, ContainerType containertype)
         {            
             List<Container> containersOfType = GetContainersOfType(containers, containertype);
 
-            foreach (Container c in containersOfType)
+            foreach (Container c in containersOfType.ToList())
             {
                 int weightOfLeftSide = GetWeightOfShipSide(ShipSide.Left, containerpiles);
                 int weightOfRightSide = GetWeightOfShipSide(ShipSide.Right, containerpiles);
@@ -65,17 +69,19 @@ namespace ContainerTransportManager.Classes
                 {
                     int topLoadWeight = pile.GetTopLoadWeight();
 
-                    if (pile.Side == shipSide && topLoadWeight + c.Weight <= 120)
+                    if (pile.Side == shipSide && topLoadWeight <= 120)
                     {
-                        bool exitLoop = ValidateContainerInPile(c, pile, containerpiles.Last().Row); 
-                        if (exitLoop)
+                        bool goNextPile = ValidateContainerInPile(c, pile, containerpiles.Last().Row); 
+                        if (goNextPile)
                         {
+                            continue;
+                        }
+                        else
+                        {
+                            pile.Containers.Add(c);
+                            containersOfType.Remove(c);
                             break;
                         }
-
-                        pile.Containers.Add(c);
-                        containersOfType.Remove(c);
-                        break;
                     }
                 }
             }
@@ -169,6 +175,7 @@ namespace ContainerTransportManager.Classes
                 return false;
             }
         }
+
         public List<ContainerPile> CreateContainerPiles(int maxcolumns, int maxrows)
         {
             List<ContainerPile> containerPiles = new List<ContainerPile>();
@@ -195,6 +202,5 @@ namespace ContainerTransportManager.Classes
             }
             return containerPiles;
         }
-
     }
 }
