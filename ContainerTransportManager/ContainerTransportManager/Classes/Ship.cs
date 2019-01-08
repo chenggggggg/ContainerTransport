@@ -7,6 +7,12 @@ using ContainerTransportManager.Classes;
 
 namespace ContainerTransportManager.Classes
 {
+    public enum ShipSide
+    {
+        Left = 0,
+        Right = 1,
+        Middle = 2
+    }
     public class Ship
     {
         public int MaxColumns { get; set; }
@@ -19,131 +25,86 @@ namespace ContainerTransportManager.Classes
         }
         public Ship(int maxcolumns, int maxrows)
         {
-            MaxColumns = maxcolumns;
-            MaxRows = maxrows;
+            this.MaxColumns = maxcolumns;
+            this.MaxRows = maxrows;
+            this.ContainerPiles = CreateContainerPiles(this.MaxColumns, this.MaxRows); 
         }
 
         public List<ContainerPile> SortAllContainersInShip(List<Container> containers)
         {
-            List<ContainerPile> containerPilesOfShip = CreateContainerPiles(this.MaxColumns, this.MaxRows);
+            List<ContainerPile> containerPilesOfShip = this.ContainerPiles;
 
             if (ValidateLoadingWeight(containers))
             {
-                containerPilesOfShip = SortCooledContainersInPiles(containerPilesOfShip, GetContainersOfType(containers, ContainerType.Cooled));
-
-                containerPilesOfShip = SortRegularContainersInPiles(containerPilesOfShip, GetContainersOfType(containers, ContainerType.Regular));
-
-                containerPilesOfShip = SortValuableContainersInPiles(containerPilesOfShip, GetContainersOfType(containers, ContainerType.Valuable));
+                //There are 3 types of containers, and must all be sorted separately.
+                for (int i = 0; i < 2; i++)
+                {
+                    ContainerType type = (ContainerType)i;
+                    containerPilesOfShip = SortContainersOfTypeInPiles(containerPilesOfShip, containers, type);
+                }
             }
             return containerPilesOfShip;
         }
 
-        public List<ContainerPile> SortValuableContainersInPiles(List<ContainerPile> containerpiles, List<Container> containers)
-        {
-            List<Container> valuableContainers = containers;
+        public List<ContainerPile> SortContainersOfTypeInPiles(List<ContainerPile> containerpiles, List<Container> containers, ContainerType containertype)
+        {            
+            List<Container> containersOfType = GetContainersOfType(containers, containertype);
 
-            foreach (Container c in valuableContainers)
+            foreach (Container c in containersOfType)
             {
                 int weightOfLeftSide = GetWeightOfShipSide(ShipSide.Left, containerpiles);
                 int weightOfRightSide = GetWeightOfShipSide(ShipSide.Right, containerpiles);
-                if (weightOfLeftSide < weightOfRightSide)
+
+                ShipSide shipSide = ShipSide.Left;
+                if (weightOfLeftSide > weightOfRightSide)
                 {
-                    foreach (ContainerPile pile in containerpiles)
-                    {
-                        int topLoadWeight = pile.GetTopLoadWeight();
-                        if (pile.Side == ShipSide.Left && topLoadWeight + c.Weight <= 120)
-                        {
-                            pile.Containers.Add(c);
-                            break;
-                        }
-                    }
+                    shipSide = ShipSide.Right;
                 }
-                else
+
+                foreach (ContainerPile pile in containerpiles)
                 {
-                    foreach (ContainerPile pile in containerpiles)
+                    int topLoadWeight = pile.GetTopLoadWeight();
+
+                    if (pile.Side == shipSide && topLoadWeight + c.Weight <= 120)
                     {
-                        int topLoadWeight = pile.GetTopLoadWeight();
-                        if ((pile.Side == ShipSide.Right || pile.Side == ShipSide.Middle) && topLoadWeight + c.Weight <= 120)
+                        bool exitLoop = ValidateContainerInPile(c, pile, containerpiles.Last().Row); 
+                        if (exitLoop)
                         {
-                            pile.Containers.Add(c);
                             break;
                         }
+
+                        pile.Containers.Add(c);
+                        containersOfType.Remove(c);
+                        break;
                     }
                 }
             }
             return containerpiles;
         }
 
-        public List<ContainerPile> SortRegularContainersInPiles(List<ContainerPile> containerpiles, List<Container> containers)
+        public bool ValidateContainerInPile(Container container, ContainerPile containerpile, int lastPileRow)
         {
-            List<Container> regularContainers = containers;
-
-            foreach (Container c in regularContainers)
+            bool IsContainerInvalid = false;
+            switch (container.Type)
             {
-                int weightOfLeftSide = GetWeightOfShipSide(ShipSide.Left, containerpiles);
-                int weightOfRightSide = GetWeightOfShipSide(ShipSide.Right, containerpiles);
-                if (weightOfLeftSide < weightOfRightSide)
-                {
-                    foreach (ContainerPile pile in containerpiles)
+                case ContainerType.Cooled:
                     {
-                        int topLoadWeight = pile.GetTopLoadWeight();
-                        if (pile.Side == ShipSide.Left && topLoadWeight + c.Weight <= 120)
+                        if (containerpile.Row != 0)
                         {
-                            pile.Containers.Add(c);
-                            break;
+                            IsContainerInvalid = true;
                         }
+                        break;
                     }
-                }
-                else
-                {
-                    foreach (ContainerPile pile in containerpiles)
+                case ContainerType.Valuable:
                     {
-                        int topLoadWeight = pile.GetTopLoadWeight();
-                        if ((pile.Side == ShipSide.Right || pile.Side == ShipSide.Middle) && topLoadWeight + c.Weight <= 120)
+                        if (containerpile.Row != 0 && containerpile.Row != lastPileRow)
                         {
-                            pile.Containers.Add(c);
-                            break;
+                            IsContainerInvalid = true;
                         }
+                        break;
                     }
-                }
             }
-            return containerpiles;
-        }
-
-        public List<ContainerPile> SortCooledContainersInPiles(List<ContainerPile> containerpiles, List<Container> containers)
-        {
-            List<Container> cooledContainers = containers;
-
-            foreach (Container c in cooledContainers)
-            {
-                int weightOfLeftSide = GetWeightOfShipSide(ShipSide.Left, containerpiles);
-                int weightOfRightSide = GetWeightOfShipSide(ShipSide.Right, containerpiles);
-                if (weightOfLeftSide < weightOfRightSide)
-                {
-                    foreach (ContainerPile pile in containerpiles)
-                    {
-                        int topLoadWeight = pile.GetTopLoadWeight();
-                        if (pile.Side == ShipSide.Left && pile.Row == 0 && topLoadWeight + c.Weight <= 120)
-                        {
-                            pile.Containers.Add(c);
-                            break;
-                        }
-                    }
-                }
-                else
-                {
-                    foreach (ContainerPile pile in containerpiles)
-                    {
-                        int topLoadWeight = pile.GetTopLoadWeight();
-                        if (pile.Side == ShipSide.Right && pile.Row == 0 && topLoadWeight + c.Weight <= 120)
-                        {
-                            pile.Containers.Add(c);
-                            break;
-                        }
-                    }
-                }
-            }
-            return containerpiles;
+            return IsContainerInvalid;
         }
         /// <summary>
         /// Returns a list of containers with the specified containertype.
@@ -224,6 +185,7 @@ namespace ContainerTransportManager.Classes
                 {
                     side = ShipSide.Right;
                 }
+
                 for (int y = 0; y < maxrows; y++)
                 {
                     ContainerPile containerPileWithPosition = new ContainerPile(containerId, x, y, side);

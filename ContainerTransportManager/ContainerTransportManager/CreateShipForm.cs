@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace ContainerTransportManager
 {
-    public partial class Form1 : Form
+    public partial class CreateShipForm : Form
     {
-        public Form1()
+        public CreateShipForm()
         {
             InitializeComponent();
         }
