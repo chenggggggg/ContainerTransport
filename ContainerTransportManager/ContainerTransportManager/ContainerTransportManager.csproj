@@ -46,14 +46,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.cs">
+    <Compile Include="Classes\Container.cs" />
+    <Compile Include="Classes\ContainerPile.cs" />
+    <Compile Include="ContainerManagerForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="ContainerManagerForm.Designer.cs">
+      <DependentUpon>ContainerManagerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CreateShipForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CreateShipForm.Designer.cs">
+      <DependentUpon>CreateShipForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Classes\Ship.cs" />
+    <Compile Include="ShipResultForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ShipResultForm.Designer.cs">
+      <DependentUpon>ShipResultForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="ContainerManagerForm.resx">
+      <DependentUpon>ContainerManagerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CreateShipForm.resx">
+      <DependentUpon>CreateShipForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -63,6 +84,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="ShipResultForm.resx">
+      <DependentUpon>ShipResultForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

@@ -6,7 +6,24 @@ using System.Threading.Tasks;
 
 namespace ContainerTransportManager.Classes
 {
-    class Container
+    public enum ContainerType
     {
+        Cooled,
+        Regular,
+        Valuable
+    }
+    public class Container
+    {
+
+        public int ContainerId { get; set; }
+        public int Weight { get; set; } = 4000;
+        public ContainerType Type { get; set; } = ContainerType.Regular;
+
+        public Container(int containerid, int weight, ContainerType type)
+        {
+            ContainerId = containerid;
+            Weight = weight;
+            Type = type;
+        }
     }
 }
