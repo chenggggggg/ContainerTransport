@@ -19,18 +19,18 @@ namespace ContainerTransportManager.Classes.Tests
                 Containers = new List<Container>()
             };
 
-            Container testContainer1 = new Container(0, 20, ContainerType.Regular, 0);
-            Container testContainer2 = new Container(0, 20, ContainerType.Regular, 0);
-            Container testContainer3 = new Container(0, 20, ContainerType.Regular, 0);
-            Container testContainer4 = new Container(0, 50, ContainerType.Regular, 0);
+            Container testContainer1 = new Container(0, 20, ContainerType.Regular);
+            Container testContainer2 = new Container(0, 20, ContainerType.Regular);
+            Container testContainer3 = new Container(0, 20, ContainerType.Regular);
+            Container testContainer4 = new Container(0, 30, ContainerType.Regular);
 
             testPile.Containers.Add(testContainer1);
             testPile.Containers.Add(testContainer2);
             testPile.Containers.Add(testContainer3);
             testPile.Containers.Add(testContainer4);
 
-            int expected = testPile.GetTopLoadWeight();
-            int actual = 90;
+            int expected = 70;
+            int actual = testPile.GetTopLoadWeight();
 
             Assert.AreEqual(expected, actual);
         }

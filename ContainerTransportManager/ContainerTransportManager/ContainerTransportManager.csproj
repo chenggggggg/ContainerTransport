@@ -63,6 +63,12 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Classes\Ship.cs" />
+    <Compile Include="ShipResultForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ShipResultForm.Designer.cs">
+      <DependentUpon>ShipResultForm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="ContainerManagerForm.resx">
       <DependentUpon>ContainerManagerForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -78,6 +84,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="ShipResultForm.resx">
+      <DependentUpon>ShipResultForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

@@ -18,14 +18,12 @@ namespace ContainerTransportManager.Classes
         public int ContainerId { get; set; }
         public int Weight { get; set; } = 4000;
         public ContainerType Type { get; set; } = ContainerType.Regular;
-        public int PilePosition { get; set; }
 
-        public Container(int containerid, int weight, ContainerType type, int pileposition)
+        public Container(int containerid, int weight, ContainerType type)
         {
             ContainerId = containerid;
             Weight = weight;
             Type = type;
-            PilePosition = pileposition;
         }
     }
 }

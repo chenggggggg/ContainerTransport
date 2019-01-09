@@ -50,16 +50,36 @@
             // ColumnNumUpDown
             // 
             this.ColumnNumUpDown.Location = new System.Drawing.Point(282, 87);
+            this.ColumnNumUpDown.Minimum = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
             this.ColumnNumUpDown.Name = "ColumnNumUpDown";
             this.ColumnNumUpDown.Size = new System.Drawing.Size(101, 22);
             this.ColumnNumUpDown.TabIndex = 1;
+            this.ColumnNumUpDown.Value = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
             // 
             // RowNumUpDown
             // 
             this.RowNumUpDown.Location = new System.Drawing.Point(282, 131);
+            this.RowNumUpDown.Minimum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
             this.RowNumUpDown.Name = "RowNumUpDown";
             this.RowNumUpDown.Size = new System.Drawing.Size(101, 22);
             this.RowNumUpDown.TabIndex = 2;
+            this.RowNumUpDown.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
             // 
             // ColumnLabel
             // 

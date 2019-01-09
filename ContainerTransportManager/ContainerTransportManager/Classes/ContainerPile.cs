@@ -32,5 +32,19 @@ namespace ContainerTransportManager.Classes
             }
             return totalWeight;
         }
+        /// <summary>
+        /// Gets the topload weight starting from the given height.
+        /// </summary>
+        /// <param name="topload"></param>
+        /// <returns></returns>
+        public int GetTopLoadWeight(int height)
+        {
+            int totalWeight = 0;
+            for (int i = height; i < Containers.Count - height; i++)
+            {
+                totalWeight = totalWeight + this.Containers[i].Weight;
+            }
+            return totalWeight;
+        }
     }
 }

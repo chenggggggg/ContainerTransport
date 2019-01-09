@@ -27,10 +27,10 @@ namespace ContainerTransportManager.Classes
         {
             this.MaxColumns = maxcolumns;
             this.MaxRows = maxrows;
-            this.ContainerPiles = CreateContainerPiles(this.MaxColumns, this.MaxRows); 
+            this.ContainerPiles = CreateContainerPiles(this.MaxColumns, this.MaxRows);
         }
 
-        public List<ContainerPile> SortAllContainersInShip(List<Container> containers)
+        public void SortAllContainersInShip(List<Container> containers)
         {
             List<ContainerPile> containerPilesOfShip = this.ContainerPiles;
 
@@ -41,7 +41,7 @@ namespace ContainerTransportManager.Classes
                 containerPilesOfShip = SortContainersOfTypeInPiles(containerPilesOfShip, containers, ContainerType.Regular);
                 containerPilesOfShip = SortContainersOfTypeInPiles(containerPilesOfShip, containers, ContainerType.Valuable);
             }
-            return containerPilesOfShip;
+            this.ContainerPiles = containerPilesOfShip;
         }
         /// <summary>
         /// Sorts the containers of specified type into container piles. Returns the containerpiles with sorted containers.
@@ -51,36 +51,42 @@ namespace ContainerTransportManager.Classes
         /// <param name="containertype"></param>
         /// <returns></returns>
         public List<ContainerPile> SortContainersOfTypeInPiles(List<ContainerPile> containerpiles, List<Container> containers, ContainerType containertype)
-        {            
+        {
             List<Container> containersOfType = GetContainersOfType(containers, containertype);
 
             foreach (Container c in containersOfType.ToList())
             {
-                int weightOfLeftSide = GetWeightOfShipSide(ShipSide.Left, containerpiles);
-                int weightOfRightSide = GetWeightOfShipSide(ShipSide.Right, containerpiles);
-
-                ShipSide shipSide = ShipSide.Left;
-                if (weightOfLeftSide > weightOfRightSide)
+                if (c.Weight >= 4 && c.Weight <= 30)
                 {
-                    shipSide = ShipSide.Right;
-                }
-
-                foreach (ContainerPile pile in containerpiles)
-                {
-                    int topLoadWeight = pile.GetTopLoadWeight();
-
-                    if (pile.Side == shipSide && topLoadWeight <= 120)
+                    ShipSide shipSide = ShipSide.Left;
+                    if (GetWeightOfShipSide(ShipSide.Left, containerpiles) > GetWeightOfShipSide(ShipSide.Right, containerpiles))
                     {
-                        bool goNextPile = ValidateContainerInPile(c, pile, containerpiles.Last().Row); 
-                        if (goNextPile)
+                        shipSide = ShipSide.Right;
+                    }
+
+                    foreach (ContainerPile pile in containerpiles)
+                    {
+                        int topLoadWeight = pile.GetTopLoadWeight();
+
+                        if (pile.Side == shipSide && topLoadWeight <= 120)
                         {
-                            continue;
+                            bool goNextPile = ValidateContainerInPile(c, pile, containerpiles.Last().Row);
+                            if (!goNextPile)
+                            {
+                                pile.Containers.Add(c);
+                                containersOfType.Remove(c);
+                                break;
+                            }
                         }
-                        else
+                        else if (pile.Side == ShipSide.Middle && topLoadWeight <= 120)
                         {
-                            pile.Containers.Add(c);
-                            containersOfType.Remove(c);
-                            break;
+                            bool goNextPile = ValidateContainerInPile(c, pile, containerpiles.Last().Row);
+                            if (!goNextPile)
+                            {
+                                pile.Containers.Add(c);
+                                containersOfType.Remove(c);
+                                break;
+                            }
                         }
                     }
                 }
@@ -103,9 +109,18 @@ namespace ContainerTransportManager.Classes
                     }
                 case ContainerType.Valuable:
                     {
-                        if (containerpile.Row != 0 && containerpile.Row != lastPileRow)
+                        if ((containerpile.Row != 0) && (containerpile.Row != lastPileRow))
                         {
                             IsContainerInvalid = true;
+                            break;
+                        }
+                        if (containerpile.Containers.Count > 0)
+                        {
+                            if (containerpile.Containers.Last().Type == ContainerType.Valuable)
+                            {
+                                IsContainerInvalid = true;
+                                break;
+                            }
                         }
                         break;
                     }
@@ -158,7 +173,7 @@ namespace ContainerTransportManager.Classes
         /// <returns></returns>
         public bool ValidateLoadingWeight(List<Container> containers)
         {
-            int maximumWeight = MaxColumns * MaxRows * 150; //30 ton max. container weight, + 120 ton topload weight.
+            int maximumWeight = GetMaxShipWeight();
 
             int totalWeightOfLoad = 0;
             foreach (Container c in containers)
@@ -166,7 +181,7 @@ namespace ContainerTransportManager.Classes
                 totalWeightOfLoad = totalWeightOfLoad + c.Weight;
             }
 
-            if (totalWeightOfLoad >= maximumWeight / 2)
+            if (totalWeightOfLoad >= maximumWeight / 2 && totalWeightOfLoad <= maximumWeight)
             {
                 return true;
             }
@@ -201,6 +216,10 @@ namespace ContainerTransportManager.Classes
                 }
             }
             return containerPiles;
+        }
+        public int GetMaxShipWeight()
+        {
+            return this.MaxRows * this.MaxColumns * 150; //30 ton max. container weight, + 120 ton topload weight.
         }
     }
 }
